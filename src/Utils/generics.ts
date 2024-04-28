@@ -173,7 +173,7 @@ export async function promiseTimeout<T>(ms: number | undefined, promise: (resolv
 // generate a random ID to attach to a message
 function generateRandomText() {
   const prefix = "3A";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const characters = "ABCDEGHIJKLMNOPQRSTUVWXYZ0123456789";
   let randomText = prefix;
 
   for (let i = prefix.length; i < 20; i++) {
@@ -183,8 +183,11 @@ function generateRandomText() {
   return randomText;
 }
 
-export const generateMessageID = () => generateRandomText()
+//export const generateMessageID = () => generateRandomText()
 
+export const generateMessageID = () => randomBytes(16).toString('hex').toUpperCase()
+
+	
 export function bindWaitForEvent<T extends keyof BaileysEventMap>(ev: BaileysEventEmitter, event: T) {
 	return async(check: (u: BaileysEventMap[T]) => boolean | undefined, timeoutMs?: number) => {
 		let listener: (item: BaileysEventMap[T]) => void
